@@ -18,7 +18,10 @@ pub fn build(b: *std.Build) void {
 
     if (brotli) {
         lib.defineCMacro("FT_CONFIG_OPTION_USE_BROTLI", "1");
-        lib.linkLibrary(b.dependency("brotli", .{}).artifact("brotli"));
+        lib.linkLibrary(b.dependency("brotli", .{
+            .target = target,
+            .optimize = optimize,
+        }).artifact("brotli"));
     }
 
     const target_info = (std.zig.system.NativeTargetInfo.detect(target) catch unreachable).target;
