@@ -1,13 +1,13 @@
 # freetype packaged for the Zig build system
 
-This is a fork of [freetype](https://github.com/freetype/freetype), packaged for Zig. Unnecessary files have been deleted, and the build system has been replaced with build.zig.
+This is a fork of [freetype](https://gitlab.freedesktop.org/freetype/freetype), packaged for Zig. Unnecessary files have been deleted, and the build system has been replaced with build.zig.
 
 ## Updating
 
 To update this repository, we run the following:
 
 ```sh
-git remote add upstream https://github.com/freetype/freetype || true
+git remote add upstream https://gitlab.freedesktop.org/freetype/freetype.git || true
 git fetch upstream
 git merge upstream/master --strategy ours
 ```
@@ -17,7 +17,7 @@ git merge upstream/master --strategy ours
 For supply chain security reasons (e.g. to confirm we made no patches to the code) you can verify the contents of this repository by adding the upstream version as a remote:
 
 ```sh
-git remote add upstream https://github.com/freetype/freetype || true
+git remote add upstream https://gitlab.freedesktop.org/freetype/freetype.git || true
 git fetch upstream
 ```
 
