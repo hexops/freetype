@@ -5,7 +5,6 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     const brotli = b.option(bool, "brotli", "use brotli") orelse false;
-    const use_system_zlib = b.option(bool, "use_system_zlib", "use system zlib instead of statically linking") orelse false;
 
     const lib = b.addStaticLibrary(.{
         .name = "freetype",
@@ -16,10 +15,6 @@ pub fn build(b: *std.Build) void {
     lib.linkLibC();
     lib.addIncludePath("include");
     lib.defineCMacro("FT2_BUILD_LIBRARY", "1");
-
-    if (use_system_zlib) {
-        lib.defineCMacro("FT_CONFIG_OPTION_SYSTEM_ZLIB", "1");
-    }
 
     if (brotli) {
         lib.defineCMacro("FT_CONFIG_OPTION_USE_BROTLI", "1");
