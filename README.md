@@ -2,6 +2,8 @@
 
 This is a fork of [freetype](https://gitlab.freedesktop.org/freetype/freetype), packaged for Zig. Unnecessary files have been deleted, and the build system has been replaced with build.zig.
 
+_Looking for Zig bindings to Freetype?_ See [mach/freetype](https://github.com/hexops/mach-freetype).
+
 ## Updating
 
 To update this repository, we run the following:
