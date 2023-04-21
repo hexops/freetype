@@ -4,8 +4,8 @@
 
     .dependencies = .{
         .brotli = .{
-            .url = "https://github.com/hexops/brotli/archive/c96ce2e193423df35ad8dac5e28f83bb713dcb00.tar.gz",
-            .hash = "1220b03b238917f63280af061a0edbd9176559e0162b24c259af03e4c51616dea3e9",
+            .url = "https://github.com/hexops/brotli/archive/a40d4d8dd495be579df5d7fd0b259b918bb7cc69.tar.gz",
+            .hash = "1220c65a4a9eb3e80b6cf1f75c46d68162b55bd1f00c806388a0dada5e6cef1f9b61",
         },
     },
 }
