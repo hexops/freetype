@@ -1612,8 +1612,14 @@
     else
 
 #endif /* FT_CONFIG_OPTION_INCREMENTAL */
+    {
+      FT_ULong  len;
 
-      offset = tt_face_get_location( face, glyph_index, &loader->byte_len );
+
+      offset = tt_face_get_location( FT_FACE( face ), glyph_index, &len );
+
+      loader->byte_len = (FT_UInt)len;
+    }
 
     if ( loader->byte_len > 0 )
     {
@@ -2796,7 +2802,9 @@
 #ifdef FT_CONFIG_OPTION_SVG
 
     /* check for OT-SVG */
-    if ( ( load_flags & FT_LOAD_COLOR ) && face->svg )
+    if ( ( load_flags & FT_LOAD_NO_SVG ) == 0 &&
+         ( load_flags & FT_LOAD_COLOR )       &&
+         face->svg                            )
     {
       SFNT_Service  sfnt = (SFNT_Service)face->sfnt;
 

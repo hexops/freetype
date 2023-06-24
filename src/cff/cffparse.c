@@ -622,7 +622,7 @@
 
       dict->has_font_matrix = TRUE;
 
-      /* We expect a well-formed font matrix, this is, the matrix elements */
+      /* We expect a well-formed font matrix, that is, the matrix elements */
       /* `xx' and `yy' are of approximately the same magnitude.  To avoid  */
       /* loss of precision, we use the magnitude of the largest matrix     */
       /* element to scale all other elements.  The scaling factor is then  */
@@ -1200,8 +1200,8 @@
         FT_Byte*     charstring_base;
         FT_ULong     charstring_len;
 
-        FT_Fixed*      stack;
-        FT_Byte*       q;
+        FT_Fixed*  stack;
+        FT_Byte*   q = NULL;
 
 
         charstring_base = ++p;
@@ -1243,7 +1243,7 @@
         /* converting it back to charstring number representations     */
         /* (this is ugly, I know).                                     */
         /* The maximum required size is 5 bytes per stack element.     */
-        if ( FT_QALLOC( q, 2 * sizeof ( FT_ListNode ) +
+        if ( FT_QALLOC( q, (FT_Long)( 2 * sizeof ( FT_ListNode ) ) +
                            5 * ( decoder.top - decoder.stack ) ) )
           goto Exit;
 
