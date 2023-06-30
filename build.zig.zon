@@ -1,11 +1,10 @@
 .{
     .name = "freetype",
     .version = "0.0.0",
-
     .dependencies = .{
         .brotli = .{
-            .url = "https://github.com/hexops/brotli/archive/a40d4d8dd495be579df5d7fd0b259b918bb7cc69.tar.gz",
-            .hash = "1220c65a4a9eb3e80b6cf1f75c46d68162b55bd1f00c806388a0dada5e6cef1f9b61",
+            .url = "https://github.com/hexops/brotli/archive/3eb0ad309a86d99dde5001a7fe3f6626ce8f3e8e.tar.gz",
+            .hash = "122047c4306cf1570010b1cf947e97948491841e7b5df9aaea94b22d5c02123c1d8c",
         },
     },
 }
