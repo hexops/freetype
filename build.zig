@@ -28,17 +28,9 @@ pub fn build(b: *std.Build) void {
     }
 
     const target = cross_target.toTarget();
-    if (target.os.tag == .windows) {
-        lib.addCSourceFile("builds/windows/ftsystem.c", &.{});
-        lib.addCSourceFile("builds/windows/ftdebug.c", &.{});
-    } else {
-        lib.defineCMacro("HAVE_UNISTD_H", "1");
-        lib.defineCMacro("HAVE_FCNTL_H", "1");
-        lib.addCSourceFile("src/base/ftsystem.c", &.{});
-        lib.addCSourceFile("src/base/ftdebug.c", &.{});
-        if (target.os.tag == .macos) lib.addCSourceFile("src/base/ftmac.c", &.{});
-    }
+    lib.defineCMacro("HAVE_UNISTD_H", "1");
     lib.addCSourceFiles(&sources, &.{});
+    if (target.os.tag == .macos) lib.addCSourceFile("src/base/ftmac.c", &.{});
     lib.installHeadersDirectory("include/freetype", "freetype");
     lib.installHeader("include/ft2build.h", "ft2build.h");
     b.installArtifact(lib);
@@ -47,6 +39,8 @@ pub fn build(b: *std.Build) void {
 const sources = [_][]const u8{
     "src/autofit/autofit.c",
     "src/base/ftbase.c",
+    "src/base/ftsystem.c",
+    "src/base/ftdebug.c",
     "src/base/ftbbox.c",
     "src/base/ftbdf.c",
     "src/base/ftbitmap.c",
