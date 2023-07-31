@@ -1,57 +1,46 @@
 const std = @import("std");
 
 pub fn build(b: *std.Build) void {
-    const target = b.standardTargetOptions(.{});
+    const cross_target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const brotli = b.option(bool, "brotli", "use brotli") orelse false;
+    const use_system_zlib = b.option(bool, "use_system_zlib", "Use system zlib") orelse false;
+    const enable_brotli = b.option(bool, "enable_brotli", "Build Brotli") orelse false;
+
+    const brotli_dep = b.dependency("brotli", .{ .target = cross_target, .optimize = optimize });
 
     const lib = b.addStaticLibrary(.{
         .name = "freetype",
-        .target = target,
+        .target = cross_target,
         .optimize = optimize,
     });
-
     lib.linkLibC();
     lib.addIncludePath("include");
     lib.defineCMacro("FT2_BUILD_LIBRARY", "1");
 
-    if (brotli) {
+    if (use_system_zlib) {
+        lib.defineCMacro("FT_CONFIG_OPTION_SYSTEM_ZLIB", "1");
+    }
+
+    if (enable_brotli) {
         lib.defineCMacro("FT_CONFIG_OPTION_USE_BROTLI", "1");
-        lib.linkLibrary(b.dependency("brotli", .{
-            .target = target,
-            .optimize = optimize,
-        }).artifact("brotli"));
+        lib.linkLibrary(brotli_dep.artifact("brotli"));
     }
 
-    const target_info = (std.zig.system.NativeTargetInfo.detect(target) catch unreachable).target;
-
-    if (target_info.os.tag == .windows) {
-        lib.addCSourceFile("builds/windows/ftsystem.c", &.{});
-        lib.addCSourceFile("builds/windows/ftdebug.c", &.{});
-    } else {
-        lib.addCSourceFile("src/base/ftsystem.c", &.{});
-        lib.addCSourceFile("src/base/ftdebug.c", &.{});
-    }
-    if (target_info.os.tag.isBSD() or target_info.os.tag == .linux) {
-        lib.defineCMacro("HAVE_UNISTD_H", "1");
-        lib.defineCMacro("HAVE_FCNTL_H", "1");
-        lib.addCSourceFile("builds/unix/ftsystem.c", &.{});
-        if (target_info.os.tag == .macos)
-            lib.addCSourceFile("src/base/ftmac.c", &.{});
-    }
-
+    const target = cross_target.toTarget();
+    lib.defineCMacro("HAVE_UNISTD_H", "1");
     lib.addCSourceFiles(&sources, &.{});
-
+    if (target.os.tag == .macos) lib.addCSourceFile("src/base/ftmac.c", &.{});
     lib.installHeadersDirectory("include/freetype", "freetype");
     lib.installHeader("include/ft2build.h", "ft2build.h");
-
     b.installArtifact(lib);
 }
 
 const sources = [_][]const u8{
     "src/autofit/autofit.c",
     "src/base/ftbase.c",
+    "src/base/ftsystem.c",
+    "src/base/ftdebug.c",
     "src/base/ftbbox.c",
     "src/base/ftbdf.c",
     "src/base/ftbitmap.c",
