@@ -3,7 +3,7 @@
     .version = "0.0.0",
     .dependencies = .{
         .brotli = .{
-            .url = "https://github.com/hexops/brotli/archive/3eb0ad309a86d99dde5001a7fe3f6626ce8f3e8e.tar.gz",
+            .url = "https://pkg.machengine.org/brotli/3eb0ad309a86d99dde5001a7fe3f6626ce8f3e8e.tar.gz",
             .hash = "12204cd54bd7db46e08857221e577971f179f98dd03e1be01bc1a54b47c9f491ed22",
         },
     },
