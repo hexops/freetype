@@ -3,8 +3,8 @@
     .version = "0.0.0",
     .dependencies = .{
         .brotli = .{
-            .url = "https://pkg.machengine.org/brotli/e6d0ea40bc585f0509a2197ff0a91005ba59bcdc.tar.gz",
-            .hash = "1220bd82f96b0e709763e720586ff84f6e40eeace450cb89a408541ba74492c8257f",
+            .url = "https://pkg.machengine.org/brotli/62f498a10dbfc85480e5b1be0026780ce2177d9a.tar.gz",
+            .hash = "12209ef40a828a7c9051c00034c463807e5069b8b812e791c9dbba450dd5ab5e3207",
         },
     },
 }
