@@ -5,7 +5,7 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     const use_system_zlib = b.option(bool, "use_system_zlib", "Use system zlib") orelse false;
-    const enable_brotli = b.option(bool, "enable_brotli", "Build Brotli") orelse false;
+    const enable_brotli = b.option(bool, "enable_brotli", "Build Brotli") orelse true;
 
     const brotli_dep = b.dependency("brotli", .{ .target = cross_target, .optimize = optimize });
 
