@@ -79,7 +79,7 @@ pub fn lib(
     l.defineCMacro("HAVE_UNISTD_H", "1");
     l.addCSourceFiles(&sources, &.{});
     if (target.toTarget().os.tag == .macos) l.addCSourceFile(.{
-        .file = .{ .path = "src/base/ftmac.c" },
+        .file = .{ .path = sdkPath("/src/base/ftmac.c") },
         .flags = &.{},
     });
     return l;
