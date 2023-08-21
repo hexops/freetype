@@ -1,42 +1,90 @@
 const std = @import("std");
 
+pub var brotli_import_path: []const u8 = "brotli";
+
 pub fn build(b: *std.Build) void {
-    const cross_target = b.standardTargetOptions(.{});
+    const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
     const use_system_zlib = b.option(bool, "use_system_zlib", "Use system zlib") orelse false;
     const enable_brotli = b.option(bool, "enable_brotli", "Build Brotli") orelse true;
 
-    const brotli_dep = b.dependency("brotli", .{ .target = cross_target, .optimize = optimize });
+    // TODO: we cannot call b.dependency() inside of `pub fn build`
+    // if we want users of the package to be able to make use of it.
+    // See hexops/mach#902
+    _ = target;
+    _ = optimize;
+    _ = use_system_zlib;
+    _ = enable_brotli;
 
-    const lib = b.addStaticLibrary(.{
+    // const brotli_dep = b.dependency("brotli", .{ .target = target, .optimize = optimize });
+
+    // const lib = b.addStaticLibrary(.{
+    //     .name = "freetype",
+    //     .target = target,
+    //     .optimize = optimize,
+    // });
+    // lib.linkLibC();
+    // lib.addIncludePath(.{ .path = "include" });
+    // lib.defineCMacro("FT2_BUILD_LIBRARY", "1");
+
+    // if (use_system_zlib) {
+    //     lib.defineCMacro("FT_CONFIG_OPTION_SYSTEM_ZLIB", "1");
+    // }
+
+    // if (enable_brotli) {
+    //     lib.defineCMacro("FT_CONFIG_OPTION_USE_BROTLI", "1");
+    //     lib.linkLibrary(brotli_dep.artifact("brotli"));
+    // }
+
+    // lib.defineCMacro("HAVE_UNISTD_H", "1");
+    // lib.addCSourceFiles(&sources, &.{});
+    // if (target.toTarget().os.tag == .macos) lib.addCSourceFile(.{
+    //     .file = .{ .path = "src/base/ftmac.c" },
+    //     .flags = &.{},
+    // });
+    // lib.installHeadersDirectory("include/freetype", "freetype");
+    // lib.installHeader("include/ft2build.h", "ft2build.h");
+    // b.installArtifact(lib);
+}
+
+// TODO: remove this once hexops/mach#902 is fixed.
+pub fn lib(
+    b: *std.Build,
+    optimize: std.builtin.OptimizeMode,
+    target: std.zig.CrossTarget,
+) *std.Build.Step.Compile {
+    const enable_brotli = true;
+    const use_system_zlib = false;
+    const brotli_dep = b.dependency(brotli_import_path, .{ .target = target, .optimize = optimize });
+
+    const l = b.addStaticLibrary(.{
         .name = "freetype",
-        .target = cross_target,
+        .target = target,
         .optimize = optimize,
     });
-    lib.linkLibC();
-    lib.addIncludePath(.{ .path = "include" });
-    lib.defineCMacro("FT2_BUILD_LIBRARY", "1");
+    l.linkLibC();
+    l.addIncludePath(.{ .path = "include" });
+    l.defineCMacro("FT2_BUILD_LIBRARY", "1");
 
     if (use_system_zlib) {
-        lib.defineCMacro("FT_CONFIG_OPTION_SYSTEM_ZLIB", "1");
+        l.defineCMacro("FT_CONFIG_OPTION_SYSTEM_ZLIB", "1");
     }
 
     if (enable_brotli) {
-        lib.defineCMacro("FT_CONFIG_OPTION_USE_BROTLI", "1");
-        lib.linkLibrary(brotli_dep.artifact("brotli"));
+        l.defineCMacro("FT_CONFIG_OPTION_USE_BROTLI", "1");
+        l.linkLibrary(brotli_dep.artifact("brotli"));
     }
 
-    const target = cross_target.toTarget();
-    lib.defineCMacro("HAVE_UNISTD_H", "1");
-    lib.addCSourceFiles(&sources, &.{});
-    if (target.os.tag == .macos) lib.addCSourceFile(.{
+    l.defineCMacro("HAVE_UNISTD_H", "1");
+    l.addCSourceFiles(&sources, &.{});
+    if (target.toTarget().os.tag == .macos) l.addCSourceFile(.{
         .file = .{ .path = "src/base/ftmac.c" },
         .flags = &.{},
     });
-    lib.installHeadersDirectory("include/freetype", "freetype");
-    lib.installHeader("include/ft2build.h", "ft2build.h");
-    b.installArtifact(lib);
+    l.installHeadersDirectory("include/freetype", "freetype");
+    l.installHeader("include/ft2build.h", "ft2build.h");
+    return l;
 }
 
 const sources = [_][]const u8{
