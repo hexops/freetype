@@ -82,9 +82,20 @@ pub fn lib(
         .file = .{ .path = "src/base/ftmac.c" },
         .flags = &.{},
     });
-    l.installHeadersDirectory("include/freetype", "freetype");
-    l.installHeader("include/ft2build.h", "ft2build.h");
     return l;
+}
+
+pub fn addPaths(step: *std.build.CompileStep) void {
+    step.addIncludePath(.{ .path = sdkPath("/include/freetype") });
+    step.addIncludePath(.{ .path = sdkPath("/include") });
+}
+
+fn sdkPath(comptime suffix: []const u8) []const u8 {
+    if (suffix[0] != '/') @compileError("suffix must be an absolute path");
+    return comptime blk: {
+        const root_dir = std.fs.path.dirname(@src().file) orelse ".";
+        break :blk root_dir ++ suffix;
+    };
 }
 
 const sources = [_][]const u8{
