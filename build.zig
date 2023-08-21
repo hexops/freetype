@@ -82,6 +82,7 @@ pub fn lib(
         .file = .{ .path = sdkPath("/src/base/ftmac.c") },
         .flags = &.{},
     });
+    addPaths(l);
     return l;
 }
 
