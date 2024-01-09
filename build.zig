@@ -29,7 +29,7 @@ pub fn build(b: *std.Build) void {
 
     lib.defineCMacro("HAVE_UNISTD_H", "1");
     lib.addCSourceFiles(.{ .files = &sources, .flags = &.{} });
-    if (target.toTarget().os.tag == .macos) lib.addCSourceFile(.{
+    if (target.result.os.tag == .macos) lib.addCSourceFile(.{
         .file = .{ .path = "src/base/ftmac.c" },
         .flags = &.{},
     });
