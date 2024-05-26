@@ -34,8 +34,8 @@ pub fn build(b: *std.Build) void {
         .file = .{ .path = "src/base/ftmac.c" },
         .flags = &.{},
     });
-    lib.installHeadersDirectory("include/freetype", "freetype");
-    lib.installHeader("include/ft2build.h", "ft2build.h");
+    lib.installHeadersDirectory(b.path("include/freetype"), "freetype", .{});
+    lib.installHeader(b.path("include/ft2build.h"), "ft2build.h");
     b.installArtifact(lib);
 }
 

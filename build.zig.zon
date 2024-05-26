@@ -13,8 +13,9 @@
     },
     .dependencies = .{
         .brotli = .{
-            .url = "https://pkg.machengine.org/brotli/538f4c5b085bb53c84e39860305442abd0436be5.tar.gz",
-            .hash = "12202a0f156a1d5d25a97468de318a99451a77b930f584d4edeff152259a875a4a75",
+            // .url = "https://pkg.machengine.org/brotli/538f4c5b085bb53c84e39860305442abd0436be5.tar.gz",
+            .url = "https://github.com/srjilarious/brotli/archive/7e9f8b1.tar.gz",
+            .hash = "122006cd44aff7dc0daeb2b7800413268f6440ce8e51106febeca80d876288303990",
             .lazy = true,
         },
     },
