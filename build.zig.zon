@@ -13,8 +13,8 @@
     },
     .dependencies = .{
         .brotli = .{
-            .url = "https://pkg.machengine.org/brotli/79018360cb56c6cc8568723935239190e5dabca8.tar.gz",
-            .hash = "12206e8b211c6b0ea59a32e2d1bba4ee023d9e3c32dbc50f43ab8d68e3704ba47361",
+            .url = "https://pkg.machengine.org/brotli/31ec33e2629f814c3830d3fdac066b5128adf5f1.tar.gz",
+            .hash = "1220c4923c2f4e9d6d2285bf897f325ed519bf85c6c4ceadfbd5b01e9f89e401dc7c",
             .lazy = true,
         },
     },
